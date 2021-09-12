@@ -17,6 +17,9 @@
             padding: 5px;
             border: 2px solid #4682B4 ;
         }
+        .dataframe{
+            margin-left:auto;margin-right:auto;
+        }
 
         .dataframe th {
             padding: 10px;
@@ -34,6 +37,9 @@
 
         .center-align {
             text-align: center;
+        }
+        .vertical-align {
+            vertical-align: center;
         }
 
         .user-name-input {
@@ -87,7 +93,7 @@
         </span></div>{% endif %}
     {%if flag == True%}
         <h5 style="text-align:center;">Top 5  recommendations for {{ org_user }} will appear here!!!</h5>
-    {{data|safe}}
+        <div class="vertical-align" style="font-weight: bold"> {{data|safe}}</div>
 
     {%endif%}
 

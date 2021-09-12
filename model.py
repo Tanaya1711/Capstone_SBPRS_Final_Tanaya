@@ -25,10 +25,8 @@ class Recommendation:
             temp = temp.groupby('id').sum()
             temp['positive_percent'] = temp.apply(lambda x: x['prediction']/sum(x), axis=1)
             final_list = temp.sort_values('positive_percent', ascending=False).iloc[:5, :].index
-            final_data = self.data[self.data.id.isin(final_list)][['id', 'brand',
-                              'categories', 'manufacturer', 'name']].drop_duplicates()
-            final_data = final_data.rename({"id": "Id", "brand": "Brand","categories": "Categories",
-                                            "manufacturer": "Manufacturer","name": "Name"}, axis='columns').to_html(index=False)
+            final_data = self.data[self.data.id.isin(final_list)][['name']].drop_duplicates()
+            final_data = final_data.rename({"name": "Name Of Product"}, axis='columns').to_html(index=False)
             return final_data
         else:
             return ""

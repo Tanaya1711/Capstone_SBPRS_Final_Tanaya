@@ -15,19 +15,19 @@
         .dataframe td,
         .dataframe th {
             padding: 5px;
-            border: 2px solid #cfd8dc;
+            border: 2px solid #4682B4 ;
         }
 
         .dataframe th {
-            padding: 5px;
-            background-color: #607d8b;
+            padding: 10px;
+            background-color: #4682B4 ;
             color: #fff;
             text-align: center;
             font-weight: bold;
         }
 
         .header {
-            background-color: #64b5f6;
+            background-color: #4682B4 ;
             height: 50px;
             padding: 5px;
         }
@@ -43,6 +43,7 @@
 
         .user-name-label {
             font-weight: bold;
+            font-size: 20px;
         }
 
         .required-label {
@@ -51,7 +52,7 @@
         }
 
         .submit-button {
-            background-color: #757575;
+            background-color: #4682B4;
             color: #fff;
             border-radius: 5px;
             width: 100px;
@@ -61,7 +62,7 @@
 <body>
 
         <div class="header">
-        <h3 style="color: #fff" class="center-align">Sentiment Based Product Recommendation System</h3>
+        <h3 style="color: #fff ; padding: 6px" class="center-align">Sentiment Based Product Recommendation System</h3>
     </div>
     <br/>
     <form action="/" method = "Post">
@@ -76,22 +77,21 @@
 
 
 
-
-
-        {% if flag == False %}
+    {% if flag == False %}
             <div class="center-align" style="font-weight: bold"> <span style="color: red;">
-            There is no user / recommendations exists
+            ** There is no user / recommendations exists **
         </span></div>{% endif %}
     {% if flag == "" %}
             <div class="center-align" style="font-weight: bold"> <span style="color: red;">
-            Select User to See Recommendations
+            ** Select User to See Recommendations **
         </span></div>{% endif %}
     {%if flag == True%}
-        <h5 style="text-align:center;">Top 5 recommendations will appear here!!!</h5>
+        <h5 style="text-align:center;">Top 5  recommendations for {{ org_user }} will appear here!!!</h5>
     {{data|safe}}
-        flag==""
+
     {%endif%}
 
+    </form>
 </body>
 </html>
 

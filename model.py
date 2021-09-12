@@ -12,16 +12,23 @@ class Recommendation:
         self.data = pd.concat([self.raw_data[['id', 'name', 'brand', 'categories', 'manufacturer']], self.data], axis=1)
 
     def getTopProducts(self, user):
-        items = self.user_final_rating.loc[user].sort_values(ascending=False)[0:20].index
-        features = pickle.load(open('pickle/features.pkl', 'rb'))
-        vectorizer = TfidfVectorizer(vocabulary=features)
-        temp = self.data[self.data.id.isin(items)]
-        X = vectorizer.fit_transform(temp['Review'])
-        temp = temp[['id']]
-        temp['prediction'] = self.model.predict(X)
-        temp['prediction'] = temp['prediction'].map({'Positive': 1, 'Negative': 0})
-        temp = temp.groupby('id').sum()
-        temp['positive_percent'] = temp.apply(lambda x: x['prediction']/sum(x), axis=1)
-        final_list = temp.sort_values('positive_percent', ascending=False).iloc[:5, :].index
-        return self.data[self.data.id.isin(final_list)][['id', 'brand',
-                              'categories', 'manufacturer', 'name']].drop_duplicates().to_html(index=False)
+
+        if user in self.raw_data.values:
+            items = self.user_final_rating.loc[user].sort_values(ascending=False)[0:20].index
+            features = pickle.load(open('pickle/features.pkl', 'rb'))
+            vectorizer = TfidfVectorizer(vocabulary=features)
+            temp = self.data[self.data.id.isin(items)]
+            X = vectorizer.fit_transform(temp['Review'])
+            temp = temp[['id']]
+            temp['prediction'] = self.model.predict(X)
+            temp['prediction'] = temp['prediction'].map({'Positive': 1, 'Negative': 0})
+            temp = temp.groupby('id').sum()
+            temp['positive_percent'] = temp.apply(lambda x: x['prediction']/sum(x), axis=1)
+            final_list = temp.sort_values('positive_percent', ascending=False).iloc[:5, :].index
+            final_data = self.data[self.data.id.isin(final_list)][['id', 'brand',
+                              'categories', 'manufacturer', 'name']].drop_duplicates()
+            final_data = final_data.rename({"id": "Id", "brand": "Brand","categories": "Categories",
+                                            "manufacturer": "Manufacturer","name": "Name"}, axis='columns').to_html(index=False)
+            return final_data
+        else:
+            return ""

@@ -10,11 +10,20 @@ app = Flask(__name__)  # intitialize the flaks app  # common
 def home():
     flag = ""
     data = ""
+    org_user = ""
     if request.method == 'POST':
         flag = True
         user = request.form["userid"]
-        data = recommend.getTopProducts(user)
-    return render_template('index.html', data=data, flag=flag)
+        org_user = request.form["userid"]
+        org_user = org_user.replace(" ", "").capitalize()
+        if user == "":
+            flag = ""
+        else:
+            user = user.replace(" ", "").lower()
+            data = recommend.getTopProducts(user)
+            if data == "":
+                flag = False
+    return render_template('index.html', data=data, flag=flag, org_user=org_user)
 
 
 if __name__ == '__main__':
